@@ -39,11 +39,21 @@ def no_e():
                 
             
 def avoids(tword,string):
-    for i in range(0,len(tword)):
+    '''
+    >>> avoids('abcd','a')
+    False
+    
+    >>> avoids('long','on')
+    False
+    
+    >>> avoids('doctest','am')
+    True
+    '''
+    for i in range(0,len(string)):
         if string[i] in tword:
             return False
-        else:
-            return True
+    else:
+        return True
         
 def count_avoids():
     count = 0
@@ -54,19 +64,36 @@ def count_avoids():
                 if avoids(word, forbidden):
                     count += 1
                     
-    print(count)
+        print(count)
     
 def uses_only(word,string):
+    '''
+    >>> uses_only('missisipi','misp')
+    True
+    
+    >>> uses_only('evaluate','evalut')
+    True
+    
+    >>> uses_only('longhorn','avecy')
+    False
+    >>> uses_only('longhorn','yaveh')
+    False
+    
+    >>> uses_only('aabe','ab')
+    False
+    '''
     correct = 0
-    for i in range(len(string)):
+    for i in range(len(word)):
         if correct == 3:
             break
-        if string[i] in word:
+        if word[i] in string:
             correct = 1
-        if string[i] not in word:
+        if word[i] not in string:
             correct = 3
     if correct == 1:
         return True
+    if correct == 3:
+        return False
     
 def words_with_only(string):
     with open("words.txt") as file:
@@ -74,6 +101,25 @@ def words_with_only(string):
             for word in line.strip().split():
                 if uses_only(word,string):
                     print(word)
+                    
+def uses_all(word,string):
+    '''
+    >>> uses_all('school','olhcs')
+    False
+    >>> uses_all('flower','rewolf')
+    True
+    '''
+    correct = 0
+    for i in range(len(word)):
+        if string[i] in word:
+            correct += 1
+        if string[i] not in word:
+            correct = 0
+            break
+    if  correct != len(string):
+        return False
+    if correct == len(string):
+        return True
     
 
      
@@ -88,5 +134,6 @@ def words_with_only(string):
 
 
 if __name__ == "__main__":
-    count_avoids()
-    
+    import doctest
+    doctest.testmod()
+        
